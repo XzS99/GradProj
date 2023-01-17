@@ -10,45 +10,43 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
 
         $category = $_POST['category'];
 
-        $sql = "insert into tblcategory(Category)values(:category)";
+        // refactored code
+        $sql = "INSERT INTO tblcategory(Category) VALUES(?)";
         $query = $dbh->prepare($sql);
-        $query->bindParam(':category', $category, PDO::PARAM_STR);
-        $query->execute();
+        $query->execute([$category]);
+        $lastInsertId = $dbh->lastInsertId();
 
-        $LastInsertId = $dbh->lastInsertId();
-        if ($LastInsertId > 0) {
+        if ($lastInsertId > 0) {
             echo '<script>alert("Category has been added.")</script>';
             echo "<script>window.location.href ='add-category.php'</script>";
         } else {
             echo '<script>alert("Something Went Wrong. Please try again")</script>';
         }
     }
+}
+?>
+<html>
 
-    ?>
-    <!DOCTYPE html>
-    <html>
+<head>
 
-    <head>
+    <title>Local Services Search Engine Mgmt System | Add Category</title>
 
-        <title>Local Services Search Engine Mgmt System | Add Category</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
 
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-        <!-- Ionicons -->
-        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-        <!-- Theme style -->
-        <link rel="stylesheet" href="dist/css/adminlte.min.css">
-        <!-- Google Font: Source Sans Pro -->
-        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    </head>
-
-    <body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini">
     <div class="wrapper">
         <?php include_once('includes/header.php'); ?>
 
 
         <?php include_once('includes/sidebar.php'); ?>
-
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
@@ -85,57 +83,31 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Category</label>
-                                            <input type="text" class="form-control" id="category" name="category"
-                                                   placeholder="Category" required="true">
+                                            <input type="text" class="form-control" id="category" name="category" placeholder="Category" required="true">
                                         </div>
-
                                     </div>
+                                    <!-- /.card-body -->
 
                                     <div class="card-footer">
                                         <button type="submit" class="btn btn-primary" name="submit">Add</button>
                                     </div>
                                 </form>
                             </div>
-                            <!-- /.card -->
-
                         </div>
-                        <!--/.col (left) -->
-                        <!-- right column -->
-
                     </div>
-                    <!-- /.row -->
-                </div><!-- /.container-fluid -->
+                </div>
             </section>
-            <!-- /.content -->
         </div>
-        <!-- /.content-wrapper -->
-
         <?php include_once('includes/footer.php'); ?>
-
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-        </aside>
-        <!-- /.control-sidebar -->
     </div>
-    <!-- ./wrapper -->
-
     <!-- jQuery -->
     <script src="plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- bs-custom-file-input -->
-    <script src="plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="dist/js/demo.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            bsCustomFileInput.init();
-        });
-    </script>
-    </body>
+</body>
 
-    </html>
-<?php } ?>
+</html>

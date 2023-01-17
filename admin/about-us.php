@@ -2,17 +2,18 @@
 session_start();
 
 include('includes/dbconnection.php');
+//check if the session variable is set, if not redirect to logout
 if (strlen($_SESSION['lssemsaid'] == 0)) {
     header('location:logout.php');
 } else {
+    //check if the form is submitted
     if (isset($_POST['submit'])) {
 
         $ofsmsaid = $_SESSION['lssemsaid'];
         $pagetitle = $_POST['pagetitle'];
         $pagedes = $_POST['pagedes'];
 
-        // refactored code: 
-
+        // update the 'about us' page in the database 
         $sql = "UPDATE tblpage SET PageTitle=?, PageDescription=? WHERE PageType='aboutus'";
 
         $query = $dbh->prepare($sql);
@@ -28,7 +29,6 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
 <html>
 
 <head>
-
     <title>Local Services Search Engine Mgmt System | About Us</title>
 
     <!-- Font Awesome -->
@@ -43,14 +43,13 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
     <script type="text/javascript">
     </script>
 </head>
-
-<script>bkLib.onDomLoaded(nicEditors.allTextAreas);</script>
+<script>
+    bkLib.onDomLoaded(nicEditors.allTextAreas);
+</script>
 
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
         <?php include_once('includes/header.php'); ?>
-
-
         <?php include_once('includes/sidebar.php'); ?>
 
         <!-- Content Wrapper. Contains page content -->
@@ -87,7 +86,7 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
                                 <!-- form start -->
                                 <form action="#" method="post" enctype="multipart/form-data">
                                     <?php
-
+                                    //select the about us page from the tblpage
                                     $sql = "SELECT * from  tblpage where PageType='aboutus'";
                                     $query = $dbh->prepare($sql);
                                     $query->execute();
@@ -96,48 +95,45 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
                                     if ($query->rowCount() > 0) {
                                         foreach ($results as $row) { ?>
 
-                                            <div class="card-body card-block">
-
-                                                <div class="form-group"><label for="company" class=" form-control-label">Page
-                                                        Title</label><input type="text" name="pagetitle" id="pagetitle" required="true" value="<?php echo $row->PageTitle; ?>" class="form-control"></div>
-                                                <div class="form-group"><label for="vat" class=" form-control-label">Page
-                                                        Description</label><textarea type="text" name="pagedes" id="pagedes" required="true" class="form-control"><?php echo $row->PageDescription; ?></textarea>
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Page Title</label>
+                                                    <input type="text" class="form-control" id="pagetitle" name="pagetitle" value="<?php echo $row->PageTitle; ?>" required>
                                                 </div>
-
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Page Description</label>
+                                                    <textarea class="form-control" id="pagedes" name="pagedes" rows="3" required><?php echo $row->PageDescription; ?></textarea>
+                                                </div>
                                             </div>
-                                    <?php $cnt = $cnt + 1;
-                                        }
-                                    } ?>
-                                    <p style="text-align: center;">
-                                        <button type="submit" class="btn btn-primary btn-sm" name="submit" id="submit">
-                                            <i class="fa fa-dot-circle-o"></i> Update
-                                        </button>
-                                    </p>
+                                            <!-- /.card-body -->
 
+                                            <div class="card-footer">
+                                                <button type="submit" class="btn btn-primary" name="submit">Update</button>
+                                            </div>
+                                    <?php }
+                                    } ?>
+                                </form>
                             </div>
-                            </form>
+                            <!-- /.card -->
+
+
                         </div>
-                        <!-- /.card -->
+                        <!--/.col (left) -->
 
                     </div>
-                    <!--/.col (left) -->
-                    <!-- right column -->
+                    <!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <?php include_once('includes/footer.php'); ?>
 
-                </div>
-                <!-- /.row -->
-        </div><!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-
-    <?php include_once('includes/footer.php'); ?>
-
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
 
@@ -145,16 +141,13 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
     <script src="plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- bs-custom-file-input -->
-    <script src="plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="dist/js/demo.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            bsCustomFileInput.init();
-        });
+    <script src="ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('pagedes');
     </script>
 </body>
 

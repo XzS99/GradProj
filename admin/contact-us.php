@@ -1,52 +1,50 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
-error_reporting(0);
 session_start();
 include('includes/dbconnection.php');
+
+// check if user is logged in, if not redirect to logout.php
 if (strlen($_SESSION['lssemsaid']) == 0) {
     header('location:logout.php');
-} else {
-    if (isset($_POST['submit'])) {
+}
 
-        $ofsmsaid = $_SESSION['ofsmsaid'];
-        $pagetitle = $_POST['pagetitle'];
-        $pagedes = $_POST['pagedes'];
-        $mobnum = $_POST['mobnum'];
-        $email = $_POST['email'];
-        $sql = "update tblpage set PageTitle=:pagetitle,PageDescription=:pagedes,Email=:email,MobileNumber=:mobnum where  PageType='contactus'";
-        $query = $dbh->prepare($sql);
-        $query->bindParam(':pagetitle', $pagetitle, PDO::PARAM_STR);
-        $query->bindParam(':pagedes', $pagedes, PDO::PARAM_STR);
-        $query->bindParam(':email', $email, PDO::PARAM_STR);
-        $query->bindParam(':mobnum', $mobnum, PDO::PARAM_STR);
+if (isset($_POST['submit'])) {
 
-        $query->execute();
-        echo '<script>alert("Contact us has been updated")</script>';
-    }
-    ?>
+    $ofsmsaid = $_SESSION['ofsmsaid'];
+    $pagetitle = $_POST['pagetitle'];
+    $pagedes = $_POST['pagedes'];
+    $mobnum = $_POST['mobnum'];
+    $email = $_POST['email'];
 
-    <!DOCTYPE html>
-    <html>
+    // refactor the sql statement
+    $sql = "UPDATE tblpage SET PageTitle=?, PageDescription=?, Email=?, MobileNumber=? WHERE PageType='contactus'";
+    $query = $dbh->prepare($sql);
+    $query->execute([$pagetitle, $pagedes, $email, $mobnum]);
+    echo '<script>alert("Contact us has been updated")</script>';
+}
+?>
 
-    <head>
+<!DOCTYPE html>
+<html>
 
-        <title>Local Services Search Engine Mgmt System | Contact Us</title>
+<head>
+    <title>Local Services Search Engine Mgmt System | Contact Us</title>
 
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-        <!-- Ionicons -->
-        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-        <!-- Theme style -->
-        <link rel="stylesheet" href="dist/css/adminlte.min.css">
-        <!-- Google Font: Source Sans Pro -->
-        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-        <script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
-        <script type="text/javascript">
-            bkLib.onDomLoaded(nicEditors.allTextAreas);
-        </script>
-    </head>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        bkLib.onDomLoaded(nicEditors.allTextAreas);
+    </script>
+</head>
 
-    <body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini">
     <div class="wrapper">
         <?php include_once('includes/header.php'); ?>
 
@@ -64,7 +62,7 @@ if (strlen($_SESSION['lssemsaid']) == 0) {
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+                                <li class="breadcrumb-item"><a href="dashboard.php">Home</a>
                                 <li class="breadcrumb-item active">Contact Us</li>
                             </ol>
                         </div>
@@ -87,74 +85,53 @@ if (strlen($_SESSION['lssemsaid']) == 0) {
                                 <!-- form start -->
                                 <form action="#" method="post" enctype="multipart/form-data">
                                     <?php
-
-                                    $sql = "SELECT * from  tblpage where PageType='contactus'";
+                                    $sql = "SELECT * FROM tblpage WHERE PageType='contactus'";
                                     $query = $dbh->prepare($sql);
                                     $query->execute();
                                     $results = $query->fetchAll(PDO::FETCH_OBJ);
-                                    $cnt = 1;
                                     if ($query->rowCount() > 0) {
-                                        foreach ($results as $row) { ?>
-
-                                            <div class="card-body card-block">
-
-                                                <div class="form-group"><label for="company"
-                                                                               class=" form-control-label">Page
-                                                        Title</label><input type="text" name="pagetitle" id="pagetitle"
-                                                                            required="true"
-                                                                            value="<?php echo $row->PageTitle; ?>"
-                                                                            class="form-control"></div>
-                                                <div class="form-group"><label for="vat" class=" form-control-label">Email</label><input
-                                                            type="email" name="email" id="email" required="true"
-                                                            value="<?php echo $row->Email; ?>" class="form-control">
+                                        foreach ($results as $row) {
+                                    ?>
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Page Title</label>
+                                                    <input type="text" class="form-control" id="pagetitle" name="pagetitle" placeholder="Page Title" value="<?php echo htmlentities($row->PageTitle); ?>" required>
                                                 </div>
-                                                <div class="form-group"><label for="vat" class=" form-control-label">Mobile
-                                                        Number</label><input type="text" name="mobnum" id="mobnum"
-                                                                             required="true"
-                                                                             value="<?php echo $row->MobileNumber; ?>"
-                                                                             maxlength="10" patttern="[0-9]+"
-                                                                             class="form-control"></div>
-                                                <div class="form-group"><label for="vat" class=" form-control-label">Page
-                                                        Description</label><textarea type="text" name="pagedes"
-                                                                                     id="PageDescription"
-                                                                                     required="true"
-                                                                                     class="form-control"><?php echo $row->PageDescription; ?></textarea>
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Page Description</label>
+                                                    <textarea class="form-control" id="pagedes" name="pagedes" rows="3" required><?php echo htmlentities($row->PageDescription); ?></textarea>
                                                 </div>
-
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Email</label>
+                                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="<?php echo htmlentities($row->Email); ?>" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Mobile Number</label>
+                                                    <input type="text" class="form-control" id="mobnum" name="mobnum" placeholder="Mobile Number" value="<?php echo htmlentities($row->MobileNumber); ?>" required>
+                                                </div>
                                             </div>
-                                            <?php $cnt = $cnt + 1;
+                                            <!-- /.card-body -->
+
+                                            <div class="card-footer">
+                                                <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+                                            </div>
+                                    <?php
                                         }
-                                    } ?>
-                                    <p style="text-align: center;">
-                                        <button type="submit" class="btn btn-primary btn-sm" name="submit" id="submit">
-                                            <i class="fa fa-dot-circle-o"></i> Update
-                                        </button>
-                                    </p>
-
+                                    }
+                                    ?>
+                                </form>
                             </div>
-                            </form>
+                            <!-- /.card -->
                         </div>
-                        <!-- /.card -->
-
+                        <!--/.col (left) -->
                     </div>
-                    <!--/.col (left) -->
-                    <!-- right column -->
-
-                </div>
-                <!-- /.row -->
-        </div><!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-
-    <?php include_once('includes/footer.php'); ?>
-
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+                    <!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <?php include_once('includes/footer.php'); ?>
     </div>
     <!-- ./wrapper -->
 
@@ -162,18 +139,10 @@ if (strlen($_SESSION['lssemsaid']) == 0) {
     <script src="plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- bs-custom-file-input -->
-    <script src="plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="dist/js/demo.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            bsCustomFileInput.init();
-        });
-    </script>
-    </body>
+</body>
 
-    </html>
-<?php } ?>
+</html>
