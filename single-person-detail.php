@@ -120,6 +120,13 @@ include('includes/dbconnection.php');
                                             <li class="details"><?php echo date("H:i", strtotime($row->EndTime)); ?></li>
                                         </ul>
                                     </div>
+                                    <div class="listing-contact-table-field">
+                                        <ul>
+                                            <li class="info" style="font-weight:bold">Working Days</li>
+                                            <li class="details"><?php echo ($row->working_days); ?></li>
+                                        </ul>
+                                    </div>
+
 
 
                                 </div>

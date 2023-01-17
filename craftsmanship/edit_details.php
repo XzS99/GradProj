@@ -32,6 +32,7 @@ if ($user = $query->fetch(PDO::FETCH_ASSOC)) {
         $MobileNumber = $_POST['MobileNumber'];
         $StartTime = $_POST['StartTime'];
         $EndTime = $_POST['EndTime'];
+        $working_days = $_POST['working_days'];
 
         $errors = array();
         //validate form inputs
@@ -61,36 +62,26 @@ if ($user = $query->fetch(PDO::FETCH_ASSOC)) {
         if (empty($EndTime)) {
             $errors[] = 'End Time is required.';
         }
+        if (empty($working_days)) {
+            $errors[] = 'Working days is required.';
+        }
         //If there are no errors, update the user's data
         if (empty($errors)) {
 
-            $query = $dbh->prepare("UPDATE tblperson SET name = :name, email = :email, address = :address, city = :city, category = :category, MobileNumber = :MobileNumber, StartTime = :StartTime, EndTime = :EndTime WHERE email = :email");
-
+            $working_days = implode(',', $_POST['working_days']);
+            $query = $dbh->prepare("UPDATE tblperson SET name = :name, email = :email, address = :address, city = :city, category = :category, MobileNumber = :MobileNumber, StartTime = :StartTime, EndTime = :EndTime, working_days = :working_days WHERE email = :email");
+            $query->bindParam(':working_days', $working_days, PDO::PARAM_STR);
             $query->bindParam(':email', $email, PDO::PARAM_STR);
             $query->bindParam(':category', $category, PDO::PARAM_STR);
             $query->bindParam(':name', $name, PDO::PARAM_STR);
             $query->bindParam(':MobileNumber', $MobileNumber, PDO::PARAM_STR);
-            $query->bindParam(':picture', $propic, PDO::PARAM_STR);
-            $query->bindParam(':Address', $address, PDO::PARAM_STR);
-            $query->bindParam(':city', $city, PDO::PARAM_STR);
-            $query->bindParam(':StartTime', $StartTime, PDO::PARAM_STR);
-            $query->bindParam(':EndTime', $EndTime, PDO::PARAM_STR);
-
-            $query->execute();
-            $message = 'Your details have been updated.';
-        }
-        if (empty($errors)) {
-            //Update user data in the database
-            $query = $dbh->prepare("UPDATE tblperson SET name = :name, email = :email, address = :address, city = :city, category = :category, MobileNumber = :MobileNumber, StartTime = :StartTime, EndTime = :EndTime");
-            $query->bindParam(':name', $name, PDO::PARAM_STR);
-            $query->bindParam(':email', $email, PDO::PARAM_STR);
             $query->bindParam(':address', $address, PDO::PARAM_STR);
             $query->bindParam(':city', $city, PDO::PARAM_STR);
-            $query->bindParam(':category', $category, PDO::PARAM_STR);
-            $query->bindParam(':MobileNumber', $MobileNumber, PDO::PARAM_STR);
             $query->bindParam(':StartTime', $StartTime, PDO::PARAM_STR);
             $query->bindParam(':EndTime', $EndTime, PDO::PARAM_STR);
             $query->execute();
+            $message = 'Your details have been updated.';
+            $_SESSION["message"] = $message;
         }
     }
 }
@@ -205,7 +196,7 @@ if ($user = $query->fetch(PDO::FETCH_ASSOC)) {
         $result2 = $query2->fetchAll(PDO::FETCH_OBJ);
 
         foreach ($result2 as $row) {
-            ?>
+        ?>
             <option value="<?php echo htmlentities($row->Category); ?>"><?php echo htmlentities($row->Category); ?></option>
         <?php } ?>
 
@@ -244,11 +235,84 @@ if ($user = $query->fetch(PDO::FETCH_ASSOC)) {
     <input type="file" id="propic" name="propic">
 
     <label for="StartTime">Start Time</label>
-    <input type="time" id="StartTime" name="StartTime"
-           value="<?php echo date("H:i", strtotime($user["StartTime"])); ?>">
+    <input type="time" id="StartTime" name="StartTime" value="<?php echo date("H:i", strtotime($user["StartTime"])); ?>">
 
     <label for="EndTime">End Time</label>
     <input type="time" id="EndTime" name="EndTime" value="<?php echo date("H:i", strtotime($user["EndTime"])); ?>">
+
+    <style>
+        #working-days {
+            height: 100px;
+            width: 300px;
+            font-size: 16px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        h1 {
+            color: #464646;
+            width: 500px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .dowPicker {
+            width: 300px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 40px 0 0 0;
+        }
+
+        .dowPicker .dowPickerOption {
+            display: inline-block;
+        }
+
+        .dowPicker .dowPickerOption input[type=checkbox] {
+            display: none;
+        }
+
+        .dowPicker .dowPickerOption label {
+            font-size: 50px;
+            color: #a7a7a7;
+            cursor: pointer;
+        }
+
+        .dowPicker .dowPickerOption input[type=checkbox]:checked~label {
+            color: #464646;
+            font-weight: 500;
+        }
+    </style>
+    <h1>Select Working Days</h1>
+    <div class="dowPicker">
+        <div class="dowPickerOption">
+            <input type="checkbox" name="working_days[]" id="Sunday" value="Sunday">
+            <label for="Sunday">S</label>
+        </div>
+        <div class="dowPickerOption">
+            <input type="checkbox" name="working_days[]" id="Monday" value="Monday">
+            <label for="Monday">M</label>
+        </div>
+        <div class="dowPickerOption">
+            <input type="checkbox" name="working_days[]" id="Tuesday" value="Tuesday">
+            <label for="Tuesday">T</label>
+        </div>
+        <div class="dowPickerOption">
+            <input type="checkbox" name="working_days[]" id="Wednesday" value="Wednesday">
+            <label for="Wednesday">W</label>
+        </div>
+        <div class="dowPickerOption">
+            <input type="checkbox" name="working_days[]" id="Thursday" value="Thursday">
+            <label for="Thursday">T</label>
+        </div>
+        <div class="dowPickerOption">
+            <input type="checkbox" name="working_days[]" id="Friday" value="Friday">
+            <label for="Friday">F</label>
+        </div>
+        <div class="dowPickerOption">
+            <input type="checkbox" name="working_days[]" id="Saturday" value="Saturday">
+            <label for="Saturday">S</label>
+        </div>
+    </div>
 
     <input type="submit" value="Submit changes">
 

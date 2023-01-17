@@ -14,15 +14,15 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
         $city = $_POST['city'];
         $category = $_POST['category'];
         $propic = $_FILES["propic"]["name"];
-        $extension = substr($propic, strlen($propic) - 4, strlen($propic));
-        $allowed_extensions = array(".jpg", "jpeg", ".png", ".gif");
+        $extension = pathinfo($propic, PATHINFO_EXTENSION);
+        $allowed_extensions = array("jpg", "jpeg", "png", "gif");
         if (!in_array($extension, $allowed_extensions)) {
             $propic = "Default.jpg";
             $extension = ".jpg";
         } else {
-            $propic = md5($propic) . time() . $extension;
+            $propic = md5($propic) . time() . '.' . $extension;
             move_uploaded_file($_FILES["propic"]["tmp_name"], "images/" . $propic);
-        }
+        } 
 
 
         $sql = "insert into tblperson(Category,Name,Picture,MobileNumber,Address,City)values(:cat,:name,:pics,:mobilenumber,:address,:city)";
