@@ -108,9 +108,7 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
                                                         Password</label><input type="password" name="newpassword" class="form-control" required=""></div>
                                                 <div class="form-group"><label for="street" class=" form-control-label">Confirm
                                                         Password</label><input type="password" name="confirmpassword" id="confirmpassword" value="" class="form-control"></div>
-
                                             </div>
-
                                             <p style="text-align: center;">
                                                 <button type="submit" class="btn btn-primary btn-sm" name="submit" id="submit">
                                                     <i class="fa fa-dot-circle-o"></i> Change

@@ -27,25 +27,26 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
 
         echo '<script>alert("Person Detail has been updated")</script>';
     }
-    ?>
-    <!DOCTYPE html>
-    <html>
+}
+?>
+<!DOCTYPE html>
+<html>
 
-    <head>
+<head>
 
-        <title>Local Services Search Engine Mgmt System | Update Person Detail</title>
+    <title>Local Services Search Engine Mgmt System | Update Person Detail</title>
 
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-        <!-- Ionicons -->
-        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-        <!-- Theme style -->
-        <link rel="stylesheet" href="dist/css/adminlte.min.css">
-        <!-- Google Font: Source Sans Pro -->
-        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    </head>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
 
-    <body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini">
     <div class="wrapper">
         <?php include_once('includes/header.php'); ?>
 
@@ -59,7 +60,7 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Add Person</h1>
+                            <h1>Update details</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -98,8 +99,7 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
                                             <div class="card-body">
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">Service Category</label>
-                                                    <select type="text" name="category" id="category" value=""
-                                                            class="form-control" required="true">
+                                                    <select type="text" name="category" id="category" value="" class="form-control" required="true">
                                                         <option value="<?php echo htmlentities($row->Category); ?>"><?php echo htmlentities($row->Category); ?></option>
                                                         <?php
 
@@ -109,7 +109,7 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
                                                         $result2 = $query2->fetchAll(PDO::FETCH_OBJ);
 
                                                         foreach ($result2 as $row1) {
-                                                            ?>
+                                                        ?>
                                                             <option value="<?php echo htmlentities($row1->Category); ?>"><?php echo htmlentities($row1->Category); ?></option>
                                                         <?php } ?>
 
@@ -118,38 +118,22 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">Name</label>
-                                                    <input type="text" class="form-control" id="name" name="name"
-                                                           value="<?php echo htmlentities($row->Name); ?>"
-                                                           required="true">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1">Profile Pics</label>
-                                                    <img src="images/<?php echo $row->Picture; ?>" width="100"
-                                                         height="100" value="<?php echo $row->Picture; ?>">
-                                                    <a href="changeimage.php?editid=<?php echo $row->ID; ?>"> &nbsp;
-                                                        Edit Image</a>
+                                                    <input type="text" class="form-control" id="name" name="name" value="<?php echo htmlentities($row->Name); ?>" required="true">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">Mobile Number</label>
-                                                    <input type="text" class="form-control" id="mobilenumber"
-                                                           name="mobilenumber"
-                                                           value="<?php echo htmlentities($row->MobileNumber); ?>"
-                                                           maxlength="10" pattern="[0-9]+" required="true">
+                                                    <input type="text" class="form-control" id="mobilenumber" name="mobilenumber" value="<?php echo htmlentities($row->MobileNumber); ?>" maxlength="10" pattern="[0-9]+" required="true">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">Address</label>
-                                                    <textarea type="text" class="form-control" id="address"
-                                                              name="address" placeholder="Address"
-                                                              required="true"><?php echo htmlentities($row->Address); ?></textarea>
+                                                    <textarea type="text" class="form-control" id="address" name="address" placeholder="Address" required="true"><?php echo htmlentities($row->Address); ?></textarea>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">City</label>
-                                                    <input type="text" class="form-control" id="city" name="city"
-                                                           value="<?php echo htmlentities($row->City); ?>"
-                                                           required="true">
+                                                    <input type="text" class="form-control" id="city" name="city" value="<?php echo htmlentities($row->City); ?>" required="true">
                                                 </div>
                                             </div>
-                                            <?php $cnt = $cnt + 1;
+                                    <?php $cnt = $cnt + 1;
                                         }
                                     } ?>
                                     <div class="card-footer">
@@ -192,11 +176,9 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
     <!-- AdminLTE for demo purposes -->
     <script src="dist/js/demo.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function() {
             bsCustomFileInput.init();
         });
     </script>
-    </body>
-
-    </html>
-<?php } ?>
+</body>
+</html>
