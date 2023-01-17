@@ -117,7 +117,6 @@
                  <p>Manage Person</p>
                </a>
              </li>
-
            </ul>
          </li>
          <li class="nav-item has-treeview">

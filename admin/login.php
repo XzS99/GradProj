@@ -113,7 +113,7 @@ if (isset($_POST['login'])) {
             <p class="mb-1">
                 <a href="forgot-password.php">I forgot my password</a>
             </p>
-            <p><a href="../index.php">Back Home!!</a></p>
+            <p><a href="../index.php">Back to home page</a></p>
 
         </div>
         <!-- /.login-card-body -->

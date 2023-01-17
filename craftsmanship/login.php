@@ -79,27 +79,28 @@ if (isset($_POST['email']) && isset($_POST['password']) && !empty($_POST['email'
 </head>
 
 <body>
-<div class="login-box">
-    <form action="login.php" method="post">
-        <h1>Login</h1>
-        <div class="textbox">
-            <i class="fas fa-user"></i>
-            <input type="text" placeholder="Email" name="email" required>
-        </div>
-        <div class="textbox">
-            <i class="fas fa-lock"></i>
-            <input type="password" placeholder="Password" name="password" required>
-        </div>
-        <?php if (!empty($error)) { ?>
-            <div class="error"><?php echo $error; ?></div>
-        <?php } ?>
-        <input type="submit" class="btn" name="login" value="Sign in">
+    <div class="login-box">
+        <form action="login.php" method="post">
+            <h1>Login</h1>
+            <div class="textbox">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="Email" name="email" required>
+            </div>
+            <div class="textbox">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Password" name="password" required>
+            </div>
+            <?php if (!empty($error)) { ?>
+                <div class="error"><?php echo $error; ?></div>
+            <?php } ?>
+            <input type="submit" class="btn" name="login" value="Sign in">
 
-        <a href="forgot_password.php" class="btn">Forgot Password</a>
-        <a href="signup.php" class="btn">Sign Up</a>
-    </form>
+            <p><a href="forgot_password.php" class="btn">Forgot Password</a></p>
+            <p><a href="signup.php" class="btn">Sign Up</a></p>
+            <p><a href="../index.php">Back to home page</a></p>
+        </form>
 
-</div>
+    </div>
 </body>
 
 

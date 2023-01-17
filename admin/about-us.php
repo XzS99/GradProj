@@ -115,11 +115,8 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
                                 </form>
                             </div>
                             <!-- /.card -->
-
-
                         </div>
                         <!--/.col (left) -->
-
                     </div>
                     <!-- /.row -->
                 </div><!-- /.container-fluid -->
@@ -128,7 +125,6 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
         </div>
         <!-- /.content-wrapper -->
         <?php include_once('includes/footer.php'); ?>
-
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
             <!-- Control sidebar content goes here -->
@@ -136,7 +132,6 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
         <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
-
     <!-- jQuery -->
     <script src="plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
