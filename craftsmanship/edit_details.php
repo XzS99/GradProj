@@ -33,9 +33,22 @@ if ($user = $query->fetch(PDO::FETCH_ASSOC)) {
         $StartTime = $_POST['StartTime'];
         $EndTime = $_POST['EndTime'];
         $working_days = $_POST['working_days'];
+        $propic = $_FILES["propic"]["name"];
+
 
         $errors = array();
         //validate form inputs
+        $extension = substr($propic, strlen($propic) - 4, strlen($propic));
+        $allowed_extensions = array(".jpg", "jpeg", ".png", ".gif");
+
+        // Check if file extension is allowed
+        if (!in_array($extension, $allowed_extensions)) {
+            $propic = "Default.jpg";
+            $extension = ".jpg";
+        } else {
+            $propic = md5($propic) . time() . '.' . $extension;
+            move_uploaded_file($_FILES["propic"]["tmp_name"], "images/" . $propic);
+        }
         if (empty($name)) {
             $errors[] = 'Name is required.';
         }
@@ -69,7 +82,7 @@ if ($user = $query->fetch(PDO::FETCH_ASSOC)) {
         if (empty($errors)) {
 
             $working_days = implode(',', $_POST['working_days']);
-            $query = $dbh->prepare("UPDATE tblperson SET name = :name, email = :email, address = :address, city = :city, category = :category, MobileNumber = :MobileNumber, StartTime = :StartTime, EndTime = :EndTime, working_days = :working_days WHERE email = :email");
+            $query = $dbh->prepare("UPDATE tblperson SET name = :name, email = :email, address = :address, city = :city, picture=:picture, category = :category, MobileNumber = :MobileNumber, StartTime = :StartTime, EndTime = :EndTime, working_days = :working_days WHERE email = :email");
             $query->bindParam(':working_days', $working_days, PDO::PARAM_STR);
             $query->bindParam(':email', $email, PDO::PARAM_STR);
             $query->bindParam(':category', $category, PDO::PARAM_STR);
@@ -77,6 +90,7 @@ if ($user = $query->fetch(PDO::FETCH_ASSOC)) {
             $query->bindParam(':MobileNumber', $MobileNumber, PDO::PARAM_STR);
             $query->bindParam(':address', $address, PDO::PARAM_STR);
             $query->bindParam(':city', $city, PDO::PARAM_STR);
+            $query->bindParam(':picture', $propic, PDO::PARAM_STR);
             $query->bindParam(':StartTime', $StartTime, PDO::PARAM_STR);
             $query->bindParam(':EndTime', $EndTime, PDO::PARAM_STR);
             $query->execute();
