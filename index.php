@@ -199,21 +199,6 @@ include('includes/dbconnection.php');
 <script id="img-wrapper-tmpl" type="text/x-jquery-tmpl">
 
 </script>
-
-<div class="rg-image-wrapper">
-    <div class="rg-image"></div>
-    <div class="rg-caption-wrapper">
-        <div class="rg-caption" style="display:none;">
-            <p></p>
-            <h5></h5>
-            <div class="caption-metas">
-                <p class="position"></p>
-                <p class="orgnization"></p>
-            </div>
-        </div>
-    </div>
-    <div class="clear"></div>
-</div>
 <script type="text/javascript" src="assets/testimonial/js/jquery.tmpl.min.js"></script>
 <script type="text/javascript" src="assets/testimonial/js/jquery.elastislide.js"></script>
 <script type="text/javascript" src="assets/testimonial/js/gallery.js"></script>
