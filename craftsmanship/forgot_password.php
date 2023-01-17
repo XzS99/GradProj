@@ -39,7 +39,6 @@ if (isset($_POST['email'])) {
         echo '<div class="error">';
         echo "The email you entered does not exist in our system.";
         echo '</div>';
-
     }
 }
 ?>
@@ -101,16 +100,18 @@ if (isset($_POST['email'])) {
 
 
 <body>
-<div class="forgot-password-box">
-    <form action="forgot_password.php" method="post">
-        <h1>Forgot Password</h1>
-        <div class="textbox">
-            <i class="fas fa-envelope"></i>
-            <input type="email" placeholder="Email" name="email" required>
-        </div>
-        <input type="submit" class="btn" value="Send Reset Link">
-    </form>
-</div>
+    <div class="forgot-password-box">
+        <form action="forgot_password.php" method="post">
+            <h1>Forgot Password</h1>
+            <div class="textbox">
+                <i class="fas fa-envelope"></i>
+                <input type="email" placeholder="Email" name="email" required>
+            </div>
+            <input type="submit" class="btn" value="Send Reset Link">
+            <a href="login.php">signin</a>
+
+        </form>
+    </div>
 </body>
 
 </html>

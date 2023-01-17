@@ -365,6 +365,8 @@ if (
 
 
         <input type="submit" value="Signup">
+        <a href="login.php">signin</a>
+
     </form>
 </body>
 
