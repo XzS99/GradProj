@@ -236,6 +236,7 @@ if (
         <label for="password_confirm">Retype Password</label>
         <input type="password" id="password_confirm" name="password_confirm">
 
+        <label for="category">Category</label>
         <select type="text" name="category" id="category" value="" class="form-control" required="true">
             <option value="">Choose Category</option>
             <?php
@@ -255,6 +256,8 @@ if (
 
         <div class="textbox">
             <i class="fas fa-user"></i>
+            <label for="city">City</label>
+
             <select name="city">
                 <option value="" class="options" selected disabled>Choose a City</option>
                 <option value="Amman" class="options">Amman</option>
