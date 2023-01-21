@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('includes/dbconnection.php');
+// check if user is logged in, if not redirect to logout.php
 if (strlen($_SESSION['lssemsaid'] == 0)) {
     header('location:logout.php');
 } else {

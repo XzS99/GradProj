@@ -6,7 +6,7 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
 } else {
 
 
-    ?>
+?>
     <!DOCTYPE html>
     <html>
 
@@ -29,125 +29,131 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
     </head>
 
     <body class="hold-transition sidebar-mini">
-    <div class="wrapper">
+        <div class="wrapper">
 
-        <?php include_once('includes/header.php'); ?>
+            <?php include_once('includes/header.php'); ?>
 
 
-        <?php include_once('includes/sidebar.php'); ?>
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1>Manage Category</h1>
-                        </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-                                <li class="breadcrumb-item active">Manage Category</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div><!-- /.container-fluid -->
-            </section>
-
-            <!-- Main content -->
-            <section class="content">
-                <div class="row">
-                    <div class="col-12">
-
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Manage Category</h3>
+            <?php include_once('includes/sidebar.php'); ?>
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1>Manage Category</h1>
                             </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th>S.No</th>
-                                        <th>Category Name</th>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+                                    <li class="breadcrumb-item active">Manage Category</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div><!-- /.container-fluid -->
+                </section>
 
-                                        <th>Creation Date</th>
-                                        <th>Action</th>
+                <!-- Main content -->
+                <section class="content">
+                    <div class="row">
+                        <div class="col-12">
 
-                                    </tr>
-                                    </thead>
-                                    <?php
-                                    $sql = "SELECT * from tblcategory";
-                                    $query = $dbh->prepare($sql);
-                                    $query->execute();
-                                    $results = $query->fetchAll(PDO::FETCH_OBJ);
-
-                                    $cnt = 1;
-                                    if ($query->rowCount() > 0) {
-                                        foreach ($results as $row) { ?>
-
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Manage Category</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
                                             <tr>
-                                                <td><?php echo htmlentities($cnt); ?></td>
-                                                <td><?php echo htmlentities($row->Category); ?>
-                                                </td>
-                                                <td><?php echo htmlentities($row->CreationDate); ?></td>
-                                                <td>
-                                                    <a href="edit-category-detail.php?editid=<?php echo htmlentities($row->ID); ?>"
-                                                       class="btn btn-primary">Edit</a></td>
+                                                <th>S.No</th>
+                                                <th>Category Name</th>
+
+                                                <th>Creation Date</th>
+                                                <th>Action</th>
 
                                             </tr>
+                                        </thead>
+                                        <?php
+                                        // This script is used to retrieve all categories from the tblcategory table and display them in a table
+                                        // Prepare a SELECT statement to retrieve all categories from the tblcategory table
+                                        $sql = "SELECT * from tblcategory";
+                                        $query = $dbh->prepare($sql);
+                                        // Execute the query
+                                        $query->execute();
+                                        // Fetch all the result
+                                        $results = $query->fetchAll(PDO::FETCH_OBJ);
+                                        // Initialize a counter variable
+                                        $cnt = 1;
+                                        // Check if the query returned any results
+                                        if ($query->rowCount() > 0) {
+                                            // Iterate through all the results
+                                            foreach ($results as $row) { ?>
 
-                                            <?php $cnt = $cnt + 1;
-                                        }
-                                    } ?>
-                                </table>
+                                                <tr>
+                                                    <td><?php echo htmlentities($cnt); ?></td>
+                                                    <td><?php echo htmlentities($row->Category); ?>
+                                                    </td>
+                                                    <td><?php echo htmlentities($row->CreationDate); ?></td>
+                                                    <td>
+                                                        <a href="edit-category-detail.php?editid=<?php echo htmlentities($row->ID); ?>" class="btn btn-primary">Edit</a>
+                                                    </td>
+
+                                                </tr>
+
+                                        <?php $cnt = $cnt + 1;
+                                            }
+                                        } ?>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
                             </div>
-                            <!-- /.card-body -->
+                            <!-- /.card -->
                         </div>
-                        <!-- /.card -->
+                        <!-- /.col -->
                     </div>
-                    <!-- /.col -->
-                </div>
-                <!-- /.row -->
-            </section>
-            <!-- /.content -->
+                    <!-- /.row -->
+                </section>
+                <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
+            <?php include_once('includes/footer.php'); ?>
+
+            <!-- Control Sidebar -->
+            <aside class="control-sidebar control-sidebar-dark">
+                <!-- Control sidebar content goes here -->
+            </aside>
+            <!-- /.control-sidebar -->
         </div>
-        <!-- /.content-wrapper -->
-        <?php include_once('includes/footer.php'); ?>
+        <!-- ./wrapper -->
 
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-        </aside>
-        <!-- /.control-sidebar -->
-    </div>
-    <!-- ./wrapper -->
-
-    <!-- jQuery -->
-    <script src="plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- DataTables -->
-    <script src="plugins/datatables/jquery.dataTables.js"></script>
-    <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
-    <!-- AdminLTE App -->
-    <script src="dist/js/adminlte.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="dist/js/demo.js"></script>
-    <!-- page script -->
-    <script>
-        $(function () {
-            $("#example1").DataTable();
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
+        <!-- jQuery -->
+        <script src="plugins/jquery/jquery.min.js"></script>
+        <!-- Bootstrap 4 -->
+        <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- DataTables -->
+        <script src="plugins/datatables/jquery.dataTables.js"></script>
+        <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+        <!-- AdminLTE App -->
+        <script src="dist/js/adminlte.min.js"></script>
+        <!-- AdminLTE for demo purposes -->
+        <script src="dist/js/demo.js"></script>
+        <!-- page script -->
+        <script>
+            $(function() {
+                $("#example1").DataTable();
+                $('#example2').DataTable({
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": false,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                });
             });
-        });
-    </script>
+        </script>
     </body>
 
     </html>

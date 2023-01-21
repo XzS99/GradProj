@@ -1,13 +1,23 @@
 <?php
 session_start();
 include('includes/dbconnection.php');
+
+//start a session
+
+//include the database connection file
+
+//check if the session variable 'lssemsaid' is set, if not redirect to logout page
 if (strlen($_SESSION['lssemsaid'] == 0)) {
     header('location:logout.php');
 } else {
+    //check if the form is submitted
     if (isset($_POST['submit'])) {
+        //get the value of session variable 'lssemsaid' and store it in a variable
         $adminid = $_SESSION['lssemsaid'];
+        // get the current password and new password value from the form and hash them with md5
         $cpassword = md5($_POST['currentpassword']);
         $newpassword = md5($_POST['newpassword']);
+        // check if the current password matches the one in the database
         $sql = "SELECT ID FROM tbladmin WHERE ID = :adminid and Password = :cpassword";
         $query = $dbh->prepare($sql);
         $query->bindParam(':adminid', $adminid, PDO::PARAM_INT);
@@ -16,6 +26,7 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
         $results = $query->fetchAll(PDO::FETCH_OBJ);
 
         if ($query->rowCount() > 0) {
+            //update the password in the database
             $con = "UPDATE tbladmin SET Password = :newpassword WHERE ID = :adminid";
             $chngpwd1 = $dbh->prepare($con);
             $chngpwd1->bindParam(':adminid', $adminid, PDO::PARAM_INT);

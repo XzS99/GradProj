@@ -2,15 +2,24 @@
 session_start();
 
 include('includes/dbconnection.php');
-//check if the session variable is set, if not redirect to logout
+//start a session
+
+//include the database connection file
+
+//check if the session variable 'lssemsaid' is set, if not redirect to logout page
 if (strlen($_SESSION['lssemsaid'] == 0)) {
     header('location:logout.php');
 } else {
     //check if the form is submitted
     if (isset($_POST['submit'])) {
 
+        //get the value of session variable 'lssemsaid' and store it in a variable
         $ofsmsaid = $_SESSION['lssemsaid'];
+
+        //get the value of the form field 'pagetitle' and store it in a variable
         $pagetitle = $_POST['pagetitle'];
+
+        //get the value of the form field 'pagedes' and store it in a variable
         $pagedes = $_POST['pagedes'];
 
         // update the 'about us' page in the database 

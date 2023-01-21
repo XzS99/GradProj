@@ -1,18 +1,25 @@
 <?php
 session_start();
 include('includes/dbconnection.php');
+//start a session
+
+//include the database connection file
+
+//check if the session variable 'lssemsaid' is set, if not redirect to logout
 if (strlen($_SESSION['lssemsaid'] == 0)) {
     header('location:logout.php');
 } else {
     if (isset($_POST['submit'])) {
-
+        //get the value of the GET parameter 'editid'
         $eid = $_GET['editid'];
+        //get the values of the form fields 'name', 'mobilenumber', 'address', 'category' and 'city'
         $name = $_POST['name'];
         $mobnum = $_POST['mobilenumber'];
         $address = $_POST['address'];
         $category = $_POST['category'];
         $city = $_POST['city'];
 
+        //update the person's details in the database
         $sql = "update tblperson set Category=:cat,Name=:name,MobileNumber=:mobilenumber,Address=:address,City=:city where ID=:eid";
         $query = $dbh->prepare($sql);
         $query->bindParam(':name', $name, PDO::PARAM_STR);
@@ -23,7 +30,7 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
         $query->bindParam(':eid', $eid, PDO::PARAM_STR);
         $query->execute();
 
-        $query->execute();
+        //display an alert message on successful update
 
         echo '<script>alert("Person Detail has been updated")</script>';
     }
@@ -181,4 +188,5 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
         });
     </script>
 </body>
+
 </html>

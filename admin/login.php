@@ -22,6 +22,7 @@ if (isset($_POST['login'])) {
             //COOKIES for password
             setcookie("userpassword", $_POST["password"], time() + (10 * 365 * 24 * 60 * 60));
         } else {
+            // delete cookies if remember me is not selected
             if (isset($_COOKIE["user_login"])) {
                 setcookie("user_login", "");
                 if (isset($_COOKIE["userpassword"])) {
@@ -29,6 +30,7 @@ if (isset($_POST['login'])) {
                 }
             }
         }
+        //set session variable
         $_SESSION['login'] = $_POST['username'];
         echo "<script type='text/javascript'> document.location ='dashboard.php'; </script>";
     } else {
@@ -59,74 +61,71 @@ if (isset($_POST['login'])) {
 </head>
 
 <body class="hold-transition login-page">
-<div class="login-box">
-    <div class="login-logo">
-        <a href="login.php"><b>Admin</b> | KHADMAT.COM</a>
-    </div>
-    <!-- /.login-logo -->
-    <div class="card">
-        <div class="card-body login-card-body">
-            <p class="login-box-msg">Sign in to start your session</p>
-
-            <form action="" method="post" id="login">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="User Name" required="true" name="username"
-                           value="<?php if (isset($_COOKIE["user_login"])) {
-                               echo $_COOKIE["user_login"];
-                           } ?>">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-user"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    <input type="password" class="form-control" placeholder="Password" name="password" required="true"
-                           value="<?php if (isset($_COOKIE["userpassword"])) {
-                               echo $_COOKIE["userpassword"];
-                           } ?>">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-lock"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-8">
-                        <div class="icheck-primary">
-                            <input type="checkbox" id="remember"
-                                   name="remember" <?php if (isset($_COOKIE["user_login"])) { ?> checked <?php } ?> />
-                            <label for="remember">
-                                Remember Me
-                            </label>
-                        </div>
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-4">
-                        <button type="submit" name="login" class="btn btn-primary btn-block">Sign In</button>
-                    </div>
-                    <!-- /.col -->
-                </div>
-            </form>
-
-
-            <p class="mb-1">
-                <a href="forgot-password.php">I forgot my password</a>
-            </p>
-            <p><a href="../index.php">Back to home page</a></p>
-
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="login.php"><b>Admin</b> | KHADMAT.COM</a>
         </div>
-        <!-- /.login-card-body -->
-    </div>
-</div>
-<!-- /.login-box -->
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Sign in to start your session</p>
 
-<!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="dist/js/adminlte.min.js"></script>
+                <form action="" method="post" id="login">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="User Name" required="true" name="username" value="<?php if (isset($_COOKIE["user_login"])) {
+                                                                                                                                    echo $_COOKIE["user_login"];
+                                                                                                                                } ?>">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" placeholder="Password" name="password" required="true" value="<?php if (isset($_COOKIE["userpassword"])) {
+                                                                                                                                        echo $_COOKIE["userpassword"];
+                                                                                                                                    } ?>">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="icheck-primary">
+                                <input type="checkbox" id="remember" name="remember" <?php if (isset($_COOKIE["user_login"])) { ?> checked <?php } ?> />
+                                <label for="remember">
+                                    Remember Me
+                                </label>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <button type="submit" name="login" class="btn btn-primary btn-block">Sign In</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+
+
+                <p class="mb-1">
+                    <a href="forgot-password.php">I forgot my password</a>
+                </p>
+                <p><a href="../index.php">Back to home page</a></p>
+
+            </div>
+            <!-- /.login-card-body -->
+        </div>
+    </div>
+    <!-- /.login-box -->
+
+    <!-- jQuery -->
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/adminlte.min.js"></script>
 
 </body>
 

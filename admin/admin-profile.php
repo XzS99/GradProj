@@ -2,7 +2,11 @@
 session_start();
 include 'includes/dbconnection.php';
 
-// Check if user is logged in
+//start a session
+
+//include the database connection file
+
+// Check if user is logged in by checking if the session variable 'lssemsaid' is set, if not
 if (empty($_SESSION['lssemsaid'])) {
     header('location:logout.php');
     exit;
@@ -12,11 +16,12 @@ if (empty($_SESSION['lssemsaid'])) {
 if (isset($_POST['submit'])) {
     $admin_id = $_SESSION['lssemsaid'];
 
-    // Extract form data
+    // Extract form data and sanitize inputs
     $admin_name = filter_input(INPUT_POST, 'adminname', FILTER_SANITIZE_STRING);
     $mobile_number = filter_input(INPUT_POST, 'mobilenumber', FILTER_SANITIZE_STRING);
     $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
 
+    //check if all inputs are valid
     if ($admin_name && $mobile_number && $email) {
         // Update the tbladmin table with the new values
         $sql = "UPDATE tbladmin SET AdminName=:adminname, MobileNumber=:mobilenumber, Email=:email WHERE ID=:admin_id";

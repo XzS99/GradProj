@@ -2,21 +2,26 @@
 header('Content-Type: text/html; charset=utf-8');
 session_start();
 include('includes/dbconnection.php');
+//start a session
 
-// check if user is logged in, if not redirect to logout.php
+//include the database connection file
+
+//check if the session variable 'lssemsaid' is set, if not redirect to logout
+
 if (strlen($_SESSION['lssemsaid']) == 0) {
+    //get the value of session variable 'ofsmsaid' and store it in a variable
     header('location:logout.php');
 }
 
 if (isset($_POST['submit'])) {
-
+    //get the value of the form fields 'pagetitle', 'pagedes', 'mobnum', 'email'
     $ofsmsaid = $_SESSION['ofsmsaid'];
     $pagetitle = $_POST['pagetitle'];
     $pagedes = $_POST['pagedes'];
     $mobnum = $_POST['mobnum'];
     $email = $_POST['email'];
 
-    // refactor the sql statement
+    // update the 'contact us' page in the database
     $sql = "UPDATE tblpage SET PageTitle=?, PageDescription=?, Email=?, MobileNumber=? WHERE PageType='contactus'";
     $query = $dbh->prepare($sql);
     $query->execute([$pagetitle, $pagedes, $email, $mobnum]);

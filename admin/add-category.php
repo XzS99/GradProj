@@ -1,21 +1,30 @@
 <?php
 session_start();
 include('includes/dbconnection.php');
+//start a session
+
+//include the database connection file
+
+//check if the session variable 'lssemsaid' is set, if not redirect to logout page
 if (strlen($_SESSION['lssemsaid'] == 0)) {
     header('location:logout.php');
 } else {
+    //check if the form is submitted
     if (isset($_POST['submit'])) {
 
+        //get the value of session variable 'lssemsaid' and store it in a variable
         $lssemsaid = $_SESSION['lssemsaid'];
 
+        //get the value of the form field 'category' and store it in a variable
         $category = $_POST['category'];
 
-        // refactored code
+        // insert the category into the database
         $sql = "INSERT INTO tblcategory(Category) VALUES(?)";
         $query = $dbh->prepare($sql);
         $query->execute([$category]);
         $lastInsertId = $dbh->lastInsertId();
 
+        // check if category is added
         if ($lastInsertId > 0) {
             echo '<script>alert("Category has been added.")</script>';
             echo "<script>window.location.href ='add-category.php'</script>";

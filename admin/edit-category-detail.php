@@ -1,13 +1,21 @@
 <?php
 session_start();
 include('includes/dbconnection.php');
+//start a session
+
+//include the database connection file
+
+//check if the session variable 'lssemsaid' is set, if not redirect to logout
 if (strlen($_SESSION['lssemsaid'] == 0)) {
     header('location:logout.php');
 } else {
     if (isset($_POST['submit'])) {
+        //get the value of the GET parameter 'editid'
         $eid = $_GET['editid'];
+        //get the value of the form field 'category'
         $category = $_POST['category'];
 
+        //update the category in the database
         $sql = "update tblcategory set Category=:category where ID=:eid";
 
         $query = $dbh->prepare($sql);
@@ -15,9 +23,10 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
         $query->bindParam(':eid', $eid, PDO::PARAM_STR);
         $query->execute();
 
+        //display an alert message on successful update
         echo '<script>alert("Category has been updated")</script>';
     }
-    ?>
+?>
     <!DOCTYPE html>
     <html>
 
@@ -36,113 +45,111 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
     </head>
 
     <body class="hold-transition sidebar-mini">
-    <div class="wrapper">
-        <?php include_once('includes/header.php'); ?>
+        <div class="wrapper">
+            <?php include_once('includes/header.php'); ?>
 
 
-        <?php include_once('includes/sidebar.php'); ?>
+            <?php include_once('includes/sidebar.php'); ?>
 
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1>Update Category</h1>
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1>Update Category</h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+                                    <li class="breadcrumb-item active">Update Category</li>
+                                </ol>
+                            </div>
                         </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-                                <li class="breadcrumb-item active">Update Category</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div><!-- /.container-fluid -->
-            </section>
+                    </div><!-- /.container-fluid -->
+                </section>
 
-            <!-- Main content -->
-            <section class="content">
-                <div class="container-fluid">
-                    <div class="row">
-                        <!-- left column -->
-                        <div class="col-md-12">
-                            <!-- general form elements -->
-                            <div class="card card-primary">
-                                <div class="card-header">
-                                    <h3 class="card-title">Update Category</h3>
-                                </div>
-                                <!-- /.card-header -->
-                                <!-- form start -->
-                                <form role="form" method="post">
-                                    <div class="card-body">
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <!-- left column -->
+                            <div class="col-md-12">
+                                <!-- general form elements -->
+                                <div class="card card-primary">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Update Category</h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <!-- form start -->
+                                    <form role="form" method="post">
+                                        <div class="card-body">
 
-                                        <div class="form-group">
-                                            <?php
-                                            $eid = $_GET['editid'];
-                                            $sql = "SELECT * from tblcategory where ID=$eid";
-                                            $query = $dbh->prepare($sql);
-                                            $query->execute();
-                                            $results = $query->fetchAll(PDO::FETCH_OBJ);
+                                            <div class="form-group">
+                                                <?php
+                                                $eid = $_GET['editid'];
+                                                $sql = "SELECT * from tblcategory where ID=$eid";
+                                                $query = $dbh->prepare($sql);
+                                                $query->execute();
+                                                $results = $query->fetchAll(PDO::FETCH_OBJ);
 
-                                            $cnt = 1;
-                                            if ($query->rowCount() > 0) {
-                                                foreach ($results as $row) { ?>
-                                                    <label for="exampleInputEmail1">Category</label>
-                                                    <input type="text" class="form-control" id="category"
-                                                           name="category"
-                                                           value="<?php echo htmlentities($row->Category); ?>">
-                                                    <?php $cnt = $cnt + 1;
-                                                }
-                                            } ?>
+                                                $cnt = 1;
+                                                if ($query->rowCount() > 0) {
+                                                    foreach ($results as $row) { ?>
+                                                        <label for="exampleInputEmail1">Category</label>
+                                                        <input type="text" class="form-control" id="category" name="category" value="<?php echo htmlentities($row->Category); ?>">
+                                                <?php $cnt = $cnt + 1;
+                                                    }
+                                                } ?>
+                                            </div>
+
                                         </div>
 
-                                    </div>
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-primary" name="submit">Update</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.card -->
 
-                                    <div class="card-footer">
-                                        <button type="submit" class="btn btn-primary" name="submit">Update</button>
-                                    </div>
-                                </form>
                             </div>
-                            <!-- /.card -->
+                            <!--/.col (left) -->
+                            <!-- right column -->
 
                         </div>
-                        <!--/.col (left) -->
-                        <!-- right column -->
+                        <!-- /.row -->
+                    </div><!-- /.container-fluid -->
+                </section>
+                <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
 
-                    </div>
-                    <!-- /.row -->
-                </div><!-- /.container-fluid -->
-            </section>
-            <!-- /.content -->
+            <?php include_once('includes/footer.php'); ?>
+
+            <!-- Control Sidebar -->
+            <aside class="control-sidebar control-sidebar-dark">
+                <!-- Control sidebar content goes here -->
+            </aside>
+            <!-- /.control-sidebar -->
         </div>
-        <!-- /.content-wrapper -->
+        <!-- ./wrapper -->
 
-        <?php include_once('includes/footer.php'); ?>
-
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-        </aside>
-        <!-- /.control-sidebar -->
-    </div>
-    <!-- ./wrapper -->
-
-    <!-- jQuery -->
-    <script src="plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- bs-custom-file-input -->
-    <script src="plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="dist/js/adminlte.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="dist/js/demo.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            bsCustomFileInput.init();
-        });
-    </script>
+        <!-- jQuery -->
+        <script src="plugins/jquery/jquery.min.js"></script>
+        <!-- Bootstrap 4 -->
+        <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- bs-custom-file-input -->
+        <script src="plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="dist/js/adminlte.min.js"></script>
+        <!-- AdminLTE for demo purposes -->
+        <script src="dist/js/demo.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                bsCustomFileInput.init();
+            });
+        </script>
     </body>
 
     </html>
