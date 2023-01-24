@@ -15,8 +15,17 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
         echo "<script>alert('Data Deleted');</script>";
         echo "<script>window.location.href='manage-person.php'</script>";
     }
+    //Code for approve
+    if (isset($_GET['approve'])) {
+        $pid = $_GET['id'];
+        $sql = "UPDATE tblperson SET IS_VERIFIED='approved' WHERE ID ='$pid'";
+        $query = $dbh->prepare($sql);
+        $query->execute();
+        echo "<script>alert('User Approved');</script>";
+        echo "<script>window.location.href='manage-person.php'</script>";
+    }
 
-    ?>
+?>
     <!DOCTYPE html>
     <html>
 
@@ -39,132 +48,132 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
     </head>
 
     <body class="hold-transition sidebar-mini">
-    <div class="wrapper">
+        <div class="wrapper">
 
-        <?php include_once('includes/header.php'); ?>
+            <?php include_once('includes/header.php'); ?>
 
 
-        <?php include_once('includes/sidebar.php'); ?>
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1>Manage Person</h1>
-                        </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-                                <li class="breadcrumb-item active">Manage Person</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div><!-- /.container-fluid -->
-            </section>
-
-            <!-- Main content -->
-            <section class="content">
-                <div class="row">
-                    <div class="col-12">
-
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Manage Person</h3>
+            <?php include_once('includes/sidebar.php'); ?>
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1>Manage Person</h1>
                             </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th>S.No</th>
-                                        <th>Category</th>
-                                        <th>Name</th>
-                                        <th>Mobile Number</th>
-                                        <th>Registration Date</th>
-                                        <th>Action</th>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+                                    <li class="breadcrumb-item active">Manage Person</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div><!-- /.container-fluid -->
+                </section>
 
-                                    </tr>
-                                    </thead>
-                                    <?php
-                                    $sql = "SELECT * from tblperson";
-                                    $query = $dbh->prepare($sql);
-                                    $query->execute();
-                                    $results = $query->fetchAll(PDO::FETCH_OBJ);
+                <!-- Main content -->
+                <section class="content">
+                    <div class="row">
+                        <div class="col-12">
 
-                                    $cnt = 1;
-                                    if ($query->rowCount() > 0) {
-                                        foreach ($results as $row) { ?>
-
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Manage Person</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
                                             <tr>
-                                                <td><?php echo htmlentities($cnt); ?></td>
-                                                <td><?php echo htmlentities($row->Category); ?></td>
-                                                <td><?php echo htmlentities($row->Name); ?></td>
-                                                <td><?php echo htmlentities($row->MobileNumber); ?></td>
-                                                <td><?php echo htmlentities($row->RegDate); ?></td>
-                                                <td>
-                                                    <a href="edit-person-detail.php?editid=<?php echo htmlentities($row->ID); ?>"
-                                                       class="btn btn-primary">Edit</a>
-
-                                                    <a href="manage-person.php?id=<?php echo $row->ID; ?>&del=delete"
-                                                       onClick="return confirm('Are you sure you want to delete?')"
-                                                       class="btn btn-danger">Delete</a>
-                                                </td>
+                                                <th>S.No</th>
+                                                <th>Category</th>
+                                                <th>Name</th>
+                                                <th>Mobile Number</th>
+                                                <th>Registration Date</th>
+                                                <th>Action</th>
 
                                             </tr>
+                                        </thead>
+                                        <?php
+                                        $sql = "SELECT * from tblperson";
+                                        $query = $dbh->prepare($sql);
+                                        $query->execute();
+                                        $results = $query->fetchAll(PDO::FETCH_OBJ);
 
-                                            <?php $cnt = $cnt + 1;
-                                        }
-                                    } ?>
-                                </table>
+                                        $cnt = 1;
+                                        if ($query->rowCount() > 0) {
+                                            foreach ($results as $row) { ?>
+
+                                                <tr>
+                                                    <td><?php echo htmlentities($cnt); ?></td>
+                                                    <td><?php echo htmlentities($row->Category); ?></td>
+                                                    <td><?php echo htmlentities($row->Name); ?></td>
+                                                    <td><?php echo htmlentities($row->MobileNumber); ?></td>
+                                                    <td><?php echo htmlentities($row->RegDate); ?></td>
+                                                    <td>
+                                                        <a href="edit-person-detail.php?editid=<?php echo htmlentities($row->ID); ?>" class="btn btn-primary">Edit</a>
+
+                                                        <a href="manage-person.php?id=<?php echo htmlentities($row->ID); ?>&approve=true" onClick="return confirm('Are you sure you want to approve this person?')" class="btn btn-primary">Approve</a>
+
+                                                        <a href="manage-person.php?id=<?php echo $row->ID; ?>&del=delete" onClick="return confirm('Are you sure you want to deny this person and delete his data?')" class="btn btn-danger">Deny</a>
+
+                                                    </td>
+
+                                                </tr>
+
+                                        <?php $cnt = $cnt + 1;
+                                            }
+                                        } ?>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
                             </div>
-                            <!-- /.card-body -->
+                            <!-- /.card -->
                         </div>
-                        <!-- /.card -->
+                        <!-- /.col -->
                     </div>
-                    <!-- /.col -->
-                </div>
-                <!-- /.row -->
-            </section>
-            <!-- /.content -->
+                    <!-- /.row -->
+                </section>
+                <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
+            <?php include_once('includes/footer.php'); ?>
+
+            <!-- Control Sidebar -->
+            <aside class="control-sidebar control-sidebar-dark">
+                <!-- Control sidebar content goes here -->
+            </aside>
+            <!-- /.control-sidebar -->
         </div>
-        <!-- /.content-wrapper -->
-        <?php include_once('includes/footer.php'); ?>
+        <!-- ./wrapper -->
 
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-        </aside>
-        <!-- /.control-sidebar -->
-    </div>
-    <!-- ./wrapper -->
-
-    <!-- jQuery -->
-    <script src="plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- DataTables -->
-    <script src="plugins/datatables/jquery.dataTables.js"></script>
-    <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
-    <!-- AdminLTE App -->
-    <script src="dist/js/adminlte.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="dist/js/demo.js"></script>
-    <!-- page script -->
-    <script>
-        $(function () {
-            $("#example1").DataTable();
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
+        <!-- jQuery -->
+        <script src="plugins/jquery/jquery.min.js"></script>
+        <!-- Bootstrap 4 -->
+        <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- DataTables -->
+        <script src="plugins/datatables/jquery.dataTables.js"></script>
+        <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+        <!-- AdminLTE App -->
+        <script src="dist/js/adminlte.min.js"></script>
+        <!-- AdminLTE for demo purposes -->
+        <script src="dist/js/demo.js"></script>
+        <!-- page script -->
+        <script>
+            $(function() {
+                $("#example1").DataTable();
+                $('#example2').DataTable({
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": false,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                });
             });
-        });
-    </script>
+        </script>
     </body>
 
     </html>

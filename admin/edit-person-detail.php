@@ -139,7 +139,6 @@ if (strlen($_SESSION['lssemsaid'] == 0)) {
                                                     <label for="exampleInputEmail1">City</label>
                                                     <input type="text" class="form-control" id="city" name="city" value="<?php echo htmlentities($row->City); ?>" required="true">
                                                 </div>
-                                            </div>
                                     <?php $cnt = $cnt + 1;
                                         }
                                     } ?>
