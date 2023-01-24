@@ -126,7 +126,7 @@ if (
             $stmt->bindParam(':EndTime', $EndTime, PDO::PARAM_STR);
             $stmt->bindParam(':working_days', $working_days, PDO::PARAM_STR);
             $stmt->execute();
-            $success = "Your account has been created";
+            $success = "Your account is now pending approval";
         }
     }
 }
@@ -204,7 +204,7 @@ if (
         }
 
         .success {
-            color: green;
+            color: navy;
         }
     </style>
 
