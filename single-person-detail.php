@@ -61,7 +61,7 @@ include('includes/dbconnection.php');
                         // person's ID has been passed through the URL, execute code
                         $vid = $_GET['viewid'];
                     }
-                    $sql = "SELECT * from  tblperson where ID=:vid";
+                    $sql = "SELECT * from  tblperson  WHERE IS_VERIFIED = 'approved' AND ID=:vid";
                     $query = $dbh->prepare($sql);
                     $query->bindParam(':vid', $vid, PDO::PARAM_STR);
                     $query->execute();

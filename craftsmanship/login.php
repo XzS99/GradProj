@@ -9,11 +9,12 @@ if (isset($_POST['email']) && isset($_POST['password']) && !empty($_POST['email'
     $password = md5($_POST['password']); // md5 the password for security
 
     // Check if the email and password match any records in the 'tblperson' table
-    $query = "SELECT * FROM tblperson WHERE email = :email AND password = :password";
+    $query = "SELECT * FROM tblperson WHERE email = :email AND password = :password AND IS_VERIFIED = 'approved'";
     $stmt = $dbh->prepare($query);
     $stmt->bindParam(':email', $email, PDO::PARAM_STR);
     $stmt->bindParam(':password', $password, PDO::PARAM_STR);
     $stmt->execute();
+
 
     if ($stmt->rowCount() > 0) {
         // If a match is found, set session variable and redirect to 'edit_details.php'
@@ -21,11 +22,24 @@ if (isset($_POST['email']) && isset($_POST['password']) && !empty($_POST['email'
         $_SESSION['message'] = 'You have successfully logged in.';
         header('Location: edit_details.php'); //redirect to the edit_details.php page
     } else {
-        // If no match is found, redirect back to the login page with an error message
-        $error = "Invalid email or password.";
+        $query = "SELECT * FROM tblperson WHERE email = :email AND password = :password AND IS_VERIFIED = 'pending'";
+        $stmt = $dbh->prepare($query);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->bindParam(':password', $password, PDO::PARAM_STR);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            // if user is pending redirect him to login page with a message
+            $_SESSION['message'] = 'Your account is pending for approval';
+            header('Location: login.php');
+        } else {
+            // If no match is found, redirect back to the login page with an error message
+            $_SESSION['message'] = "Invalid email or password.";
+            header('Location: login.php');
+        }
     }
 }
 ?>
+
 
 <html>
 

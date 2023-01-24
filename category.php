@@ -76,7 +76,7 @@ include('includes/dbconnection.php');
                         <div class="cat-list-wrap">
                             <ul class="cat-list">
                                 <?php
-                                $sql = "SELECT Category, count(ID) as total from tblperson group by Category";
+                                $sql = "SELECT Category, count(ID) as total from tblperson WHERE IS_VERIFIED = 'approved' group by Category";
                                 $query = $dbh->prepare($sql);
                                 $query->execute();
                                 $results = $query->fetchAll(PDO::FETCH_OBJ);
